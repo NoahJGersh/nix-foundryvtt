@@ -95,6 +95,14 @@ in
         '';
       };
 
+      debug = mkOption {
+        type = types.bool;
+        default = false;
+        description = ''
+          If true, enables debug mode on the FoundryVTT server.
+        '';
+      };
+
       language = mkOption {
         type = types.str;
         default = "en.core";
@@ -234,7 +242,7 @@ in
           User = "foundryvtt";
           Group = "foundryvtt";
           Restart = "always";
-          ExecStart = "${lib.getBin cfg.package}/bin/foundryvtt --headless --noupdate --dataPath=\"${cfg.dataDir}\"";
+          ExecStart = "${lib.getBin cfg.package}/bin/foundryvtt --headless${if cfg.debug then " --debug" else ""} --noupdate --dataPath=\"${cfg.dataDir}\"";
           StateDirectory = "foundryvtt";
           StateDirectoryMode = "0750";
 
